@@ -1,0 +1,43 @@
+{% extends "negade/layout.html" %}
+
+{% block body %}
+<div id="filter">
+    <i class="fa fa-filter" aria-hidden="true">&nbsp;</i>
+    <span id="filt">Filter</span>
+</div>
+<div id="filter-con" class="border col-sm-8">
+    <div class="row">
+        <ul class="list-group list-group-flush col-sm-4" id="filter-list">
+            {% for v in vendor_types %}
+                <li data-name="{{ v.name }}" class="list-group-item">{{ v }}</li>
+            {% endfor %}
+        </ul>
+        <ul class="list-group list-group-flush col-sm-4" id="filter-list1">
+            <li data-verified="0" class="list-group-item">Verified</li>
+            <li data-verified="1" class="list-group-item">Unverified</li>
+        </ul>
+        <ul class="list-group list-group-flush col-sm-4" id="filter-list2">
+            <li data-sub="0" class="list-group-item">Subscribed</li>
+            <li data-sub="1" class="list-group-item">Unsubscribed</li>
+        </ul>
+    </div>
+</div>
+<ul class="list-group list-group-flush" id="ven-ul">
+    {% for vendor in vendors %}
+    <li class="list-group-item row">
+        <div class="row">
+            <div class="border col-sm-3" id="vend-parent">
+                <a href="{% url 'vendor' vendor.id %}" style="height: inherit;">
+                    <img src="{{ vendor.logo }}" alt="vendor logo" class="img-fluid" id="vend-logo">
+                </a>
+            </div>
+            <a href="{% url 'vendor' vendor.id %}" class="col-sm-2">
+                <strong>{{ vendor.username }}</strong>
+            </a>
+            <div class="col-sm-7">{{ vendor.about }}</div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "negade/layout.html" %}
+
+{% block body %}
+
+<div style="height: 200px; width: 100%;">
+    <img src="{{ vendor.cover }}" alt="logo" style="object-fit: cover;height: inherit;width: inherit;">
+</div>
+<div class="row">
+    <div class="col-sm-8 display-4 mt-2">{{ vendor.username }}
+        {% if vendor.verified %}
+            <img src="https://static.thenounproject.com/png/426713-200.png" alt="verified" height="25" width="25">
+        {% endif %}
+    </div>
+    <div class="col-sm-4">
+        <div class="float-right">
+            {% if user.is_authenticated %}
+                {% if user.id == vendor.id %}
+                    <a href="{% url 'edit_page' vendor.id %}" class="btn btn-outline-warning mt-4 text-dark">Edit Page</a>
+                {% else %}                    
+                    {% if user in subs %}
+                        <button data-id="{{ vendor.id }}" class="btn btn-outline-secondary mt-4" id="subscribe">Subscribed!</button>
+                    {% else %}
+                        <button data-id="{{ vendor.id }}" class="btn btn-warning mt-4" id="subscribe">Subscribe</button>
+                    {% endif %}
+                {% endif %}                
+            {% endif %}
+        </div>
+    </div>
+</div>
+<h5 class="mt-2 text-center">{{ vendor.moto }}</h5>
+<div id="fill">
+    <div class="row text-center text-lg-left" id="list">
+        {% for item in vendor.items.all %}
+        <div class="col-lg-3 text-center border my-3 mx-4 p-2 hovr" id="item_cont">
+            <div data-id="{{ item.id }}" style="cursor: pointer;" class="item-out">
+                <img class="img-fluid mw-100 mh-100 d-block mb-2 hov" src="{{ item.image }}" alt="{{ item.image }}">
+                <div class="hv">From: <strong>{{ item.vendor }}</strong></div>
+                <div class="hv1">&dollar;<strong>{{ item.price }}</strong></div>
+            </div>
+            <small class="bg-warning pl-1 pr-1" id="tag">
+            {% if item.upcoming %}
+                Upcoming
+            {% elif item.date_created %}
+                Available
+            {% endif %}
+            </small>
+            <h4>{{ item.name }}</h4>
+        </div>
+        {% empty %}
+        <p>Sorry! Nothing in hand!</p>
+        {% endfor %}
+    </div>
+</div>
+<div id="fill1"></div>
+
+{% endblock %}

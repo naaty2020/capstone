@@ -1,0 +1,45 @@
+{% extends "negade/layout.html" %}
+
+{% block body %}
+
+    <h6>Search results in <strong>Vendors</strong></h6>
+
+    <ul class="list-group list-group-flush mb-4">
+        {% for vendor in vendors %}
+            <li class="list-group-item">
+                <div class="row">
+                    <a href="{% url 'vendor' vendor.id %}" class="border col-sm-3" id="vend-parent" style="color: black; text-decoration: none;">
+                        <img src="{{ vendor.logo }}" alt="vendor logo" class="img-fluid" id="vend-logo">
+                    </a>
+                    <a href="{% url 'index' %}" class="col-sm-2" style="color: black; text-decoration: none;">
+                        <strong>{{ vendor.username }}</strong>
+                    </a>
+                    <div class="col-sm-7">{{ vendor.about }}</div>
+                </div>
+            </li>
+        {% empty %}
+            <p>Nothing found!</p>
+        {% endfor %}
+    </ul>
+
+    <h6>Search results in <strong>Items</strong></h6>
+
+    <ul class="list-group list-group-flush">
+        {% for item in items %}
+            <li class="list-group-item">
+                <div class="row">
+                    <a href="{% url 'item' item.id %}" class="border col-sm-3" id="vend-parent" style="color: black; text-decoration: none;">
+                        <img src="{{ item.image }}" alt="Item image" class="img-fluid" id="vend-logo">
+                    </a>
+                    <a href="{% url 'item' item.id %}" class="col-sm-2" style="color: black; text-decoration: none;">
+                        <strong>{{ item.name }}</strong>
+                    </a>
+                    <div class="col-sm-7">{{ item.description }}</div>
+                </div>
+            </li>
+        {% empty %}
+            <p>Nothing found!</p>
+        {% endfor %}        
+    </ul>
+
+{% endblock %}

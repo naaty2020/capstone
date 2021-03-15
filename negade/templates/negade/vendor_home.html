@@ -1,0 +1,39 @@
+{% extends "negade/layout.html" %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-sm-3 border-right">
+            <div style="font-size: 2em;">Home Page</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a href="{% url 'edit_page' vendor.id %}">Edit Profile & Page</a></li>
+                <li class="list-group-item"><a href="{% url 'add_item' %}">Add Item</a></li>                
+              </ul>
+        </div>
+        <div class="col-sm-9">
+            <div class="display-4">Items</div>
+            <div class="row text-center text-lg-left" id="list">
+                {% for item in vendor.items.all %}
+                <div class="col-lg-3 text-center border m-2 p-1 hovr" id="item_cont">
+                    <a href="{% url 'item' item.id %}" style="color: black;">
+                        <img class="img-fluid mw-100 mh-100 d-block mb-2 hov" src="{{ item.image }}" alt="item image">                
+                        <div class="hv">From: <strong>{{ item.vendor }}</strong></div>
+                        <div class="hv1">&dollar;<strong>{{ item.price }}</strong></div>
+                    </a>            
+                    {% if item.upcoming %}
+                    <small class="bg-warning pl-1 pr-1" id="tag">Upcoming</small>
+                    {% elif item.quantity == 0 %}
+                    <small class="bg-danger pl-1 pr-1" id="tag">Unavailable</small>
+                    {% else %}
+                    <small class="bg-success pl-1 pr-1" id="tag">Available</small>
+                    {% endif %}            
+                    <h4>{{ item.name }}</h4>
+                </div>
+                {% empty %}
+                <p>Sorry! Nothing in hand!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

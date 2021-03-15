@@ -1,0 +1,87 @@
+{% extends "negade/layout.html" %}
+
+{% load humanize %}
+
+{% block body %}
+
+    <div class="border row mb-4">
+        <div class="col-sm-5 p-5 txt">
+            <div>Item name: <strong>{{ item.name }}</strong></div>
+            <div>From: <strong><a href="{% url 'vendor' item.vendor.id %}">{{ item.vendor }}</a></strong></div>
+            <div>Category: <strong>{{ item.category }}</strong></div>
+            <div>Price: <strong>&dollar;{{ item.price }}</strong></div>
+            <div>Description: {{ item.description }}</div>
+            <div>Seen {{ item.seen_count }} times</div>
+            {% if item.upcoming %}
+                <Strong>Upcoming</Strong>
+            {% else %}
+                <Strong>Available</Strong>
+            {% endif %}
+            {% if user.id == item.vendor.id %}
+                <a href="{% url 'edit_item' item.id %}" class="btn btn-warning btn-block mt-2">Edit this Item</a>
+                <form action="{% url 'edit_item' item.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete this Item" class="btn btn-danger btn-block mt-2" name="delete">
+                </form>
+            {% endif %}
+        </div>
+        <div class="col-sm-7">
+            <img src="{{ item.image }}" alt="Item image" style="height: auto;width: inherit;">
+        </div>
+    </div>
+    <div>
+        Other Items from <strong>{{ item.vendor }} vendor</strong>.
+        <div id="con">
+            <div id="con1">
+                {% for item in v_items %}
+                    <a href="{% url 'item' item.id %}" style="height: inherit;">
+                        <img src="{{ item.image }}" alt="Item image" class="img_block item-out mr-1">
+                    </a>
+                {% empty %}
+                    Nothing found!
+                {% endfor %}
+            </div>
+        </div>
+        Related Items from <strong>{{ item.category }} category</strong>.
+        <div id="con">
+            <div id="con1">
+                {% for item in c_items %}
+                    <a href="{% url 'item' item.id %}" style="height: inherit;">
+                        <img src="{{ item.image }}" alt="Item image" class="img_block item-out mr-1">
+                    </a>
+                {% empty %}
+                    Nothing found!
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="row">
+        <div class="form-group col-sm-7">
+            <form action="{% url 'item' item.id %}" method="post" class="form-horizontal">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="text"><strong>{{ user }}</strong>:</label>
+                    <textarea class="form-control" id="text" rows="4" name="text"
+                        placeholder="Your comment here."></textarea>
+                </div>
+                <input type="submit" value="Post" class="btn btn-warning" name="comment_form">
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    <h3 class="mb-4">Comments<small class="float-right">{{ item.comments.all.count }} comment(s)</small></h3>
+    {% for comment in item.comments.all %}
+    <div class="mb-4" style="border-bottom: 1px dotted #ccc;">
+        <div class="row">
+            <div class="col-md-10">
+                <p><strong>{{ comment.user }}</strong>:&nbsp;{{ comment }}</p>
+            </div>
+            <div class="col-md-2">
+                <small class="float-right">{{ comment.created_at|naturaltime }}</small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

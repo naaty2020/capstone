@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>{% block title %}Negade{% endblock %}</title>
+  <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/64x64/shopping_cart.png">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'negade/style.css' %}">
+  <script src="{% static 'negade/index.js' %}"></script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-warning">
+    <a class="navbar-brand" href="{% url 'index' %}">Negade.com</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          {% if user.is_vendor %}
+            <a class="navbar-brand" href="{% url 'vendor_home' user.username %}">Home</a>
+          {% else %}
+            <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+          {% endif %}
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'vendors' %}">Vendors</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'search' %}">
+        <input class="form-control mr-sm-2" type="search" id="srch_inp" placeholder="Search vendors items..."
+          name="value">
+        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" id="search">Search</button>
+      </form>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2" id="left">
+        {% block left %}
+        {% endblock %}
+      </div>
+      <div class="col-sm-8">
+        {% block body %}
+        {% endblock %}
+      </div>
+      <div id="right" class="col-sm-2">
+        <div id="right_">
+          {% if user.is_authenticated %}
+          <i class="fa fa-user"></i><b class="ml-2">{{ user }}</b>
+          <ul class="list-group list-group-flush" id="right-btns">            
+            <li class="list-group-item d-flex align-items-center">
+              <i class="fa fa-sign-out">&nbsp;</i><a href="{% url 'logout' %}">Logout</a>
+            </li>
+          </ul>
+          {% else %}
+            <a href="{% url 'login' %}" style="font-size: 2em;">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+<footer class="bg-light text-center text-lg-start mt-5">
+  <div class="container p-4">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+        <h5 class="text-uppercase">About Us</h5>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
+          molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam
+          voluptatem veniam, est atque cumque eum delectus sint!
+        </p>
+      </div>
+      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+        <h5 class="text-uppercase">We are</h5>
+        <ul class="list-unstyled mb-0">
+          <li>
+            <a href="facebook.com" class="text-dark">On Facebook</a>
+          </li>
+          <li>
+            <a href="twitter.com" class="text-dark">On Twitter</a>
+          </li>
+          <li>
+            <a href="instagram.com" class="text-dark">On Instagram</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+    © {% now "Y" %} Copyright: <a class="text-dark" href="127.0.0.1:8000">Negade.com</a>
+  </div>
+</footer>
+</body>
+
+</html>

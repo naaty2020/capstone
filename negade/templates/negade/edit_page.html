@@ -1,0 +1,79 @@
+{% extends 'negade/layout.html' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-sm-7 border-right">
+        <form action="{% url 'edit_page' vendor.id %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Username</label>
+                <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelp"
+                    placeholder="Enter your name" value="{{ vendor.username }}">
+                <small id="nameHelp" class="form-text text-muted">Your Username</small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" name="email" id="email" aria-describedby="emailHelp"
+                    placeholder="Enter email" value="{{ vendor.email }}">
+                <small id="emailHelp" class="form-text text-muted">Your email</small>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" name="address" id="address" aria-describedby="addressHelp"
+                    placeholder="Enter address" value="{% if vendor.address is not None %}vendor.address{% endif %}">
+                <small id="addressHelp" class="form-text text-muted">Your address</small>
+            </div>
+            <div class="form-group">
+                <label for="ven_type">Vendor Types</label>
+                <select class="form-control" name="vendor_type" id="ven_type">
+                    {% for v in vendor_types %}
+                        {% if v.id == vendor.vendor_type.id %}
+                            <option value="{{ v.id }}" selected>{{ v }}</option>
+                        {% else %}
+                            <option value="{{ v.id }}">{{ v }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="moto">Moto</label>
+                <textarea class="form-control" name="moto" id="moto" rows="3">{% if vendor.moto is not None %}{{ vendor.moto }}{% endif %}
+                </textarea>
+            </div>
+            <div class="form-group">
+                <label for="about">About</label>
+                <textarea class="form-control" name="about" id="about" rows="3">{% if vendor.about is not None %}{{ vendor.about }}{% endif %}
+                </textarea>
+            </div>
+            <div class="form-group">
+                <label for="logo">Logo URL</label>
+                <input type="text" class="form-control" name="logo" id="logo" aria-describedby="logoHelp"
+                    placeholder="Enter Logo URL" value="{{ vendor.logo }}">
+                <small id="logoHelp" class="form-text text-muted">Your Logo URL</small>
+            </div>
+            <div class="form-group">
+                <label for="cover">Cover URL</label>
+                <input type="text" class="form-control" name="cover" id="cover" aria-describedby="coverHelp"
+                    placeholder="Enter Cover URL" value="{{ vendor.cover }}">
+                <small id="coverHelp" class="form-text text-muted">Your Cover URL</small>
+            </div>
+            <div class="row">
+                <div class="col-sm-6"><a href="{% url 'vendor_home' vendor.username %}" class="btn btn-danger btn-block">Cancel</a></div>
+                <div class="col-sm-6">
+                    <input type="submit" value="Save" class="btn btn-warning btn-block">
+                </div>
+            </div>            
+        </form>
+    </div>
+    <div class="col-sm-5">
+        <div id="preview">
+            Logo preview
+            <div id="logo-pre" class="m-3" style="width: inherit;"></div>
+            Cover preview
+            <div id="cover-pre" class="m-3" style="width: inherit;"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

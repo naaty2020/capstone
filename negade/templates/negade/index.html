@@ -1,0 +1,36 @@
+{% extends "negade/layout.html" %}
+
+{% block body %}
+
+<div id="index">
+    <div class="btn-group" role="group" id="btn-grp">
+        <button type="button" id="sub" class="btn btn-warning">Subscribtion</button>
+        <button type="button" id="all" class="btn btn-warning">All</button>
+        <button type="button" id="trending" class="btn btn-warning">Trending</button>
+        <button type="button" id="new" class="btn btn-warning">New</button>
+        <button type="button" id="upcoming" class="btn btn-warning">Coming Soon</button>
+    </div>
+    <div class="row text-center text-lg-left" id="list1"></div>
+    <div class="row text-center text-lg-left" id="list">
+        {% for item in items %}
+        <div class="col-lg-3 text-center border my-3 mx-4 p-1 hovr" id="item_cont">
+            <!--<div data-id="{{ item.id }}" style="cursor: pointer;" class="item-out"></div>-->
+            <a href="{% url 'item' item.id %}" style="color: black;">
+                <img class="img-fluid mw-100 mh-100 d-block mb-2 hov" src="{{ item.image }}" alt="item image">                
+                <div class="hv">From: <strong>{{ item.vendor }}</strong></div>
+                <div class="hv1">&dollar;<strong>{{ item.price }}</strong></div>
+            </a>            
+            {% if item.upcoming %}
+            <small class="bg-warning pl-1 pr-1" id="tag">Upcoming</small>            
+            {% else %}
+            <small class="bg-success pl-1 pr-1" id="tag">Available</small>
+            {% endif %}            
+            <h4>{{ item.name }}</h4>
+        </div>
+        {% empty %}
+        <p>Sorry! Nothing in hand!</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

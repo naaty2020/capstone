@@ -1,8 +1,6 @@
-# Capstone (Final Project)
+# Capstone
 
-## **CS50's Web Programming with Python and JavaScript**
-
-This is the final project. It is an amazon like application where vendors(from giant to small) and customers can participate in the trade.
+This project is an amazon like application where vendors(from giant to small) and customers can participate in the trade.
 Basic functionsalities included in this application:
 * users and vendors have a separate login and register functionality
 * users can subscribe to vendors
@@ -14,8 +12,6 @@ Basic functionsalities included in this application:
 * any user(anyone with a business idea) can open  avendor account
 * there's a verified icon on verified vendors
 * users can access a list of vendors. additionally in the list of vendors there's a filter functionality which filters vendors by vendor type, verified or not and subscribed or not
-
-This Project is sufficiently distinct from previous ones. Previous projects focus on a simpler and less number of functionalities while this project constitutes several more or less complex functionalities like searching through the application for items and vendors. Additionally functionalities like **query result filtering** and listing items that are **trending**, **new**, **subscribed** and **upcoming** makes it more complex because they require a well designed database and smart queries.
 
 This web application uses **Django** framework for backend with 7 models and **JavaScript** for frontend.
 
